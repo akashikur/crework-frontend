@@ -5,7 +5,14 @@ import TodoCard from "./TodoCard";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 
-const TodoDetails = ({ isModalOpen, toggleModal }) => {
+interface TodoDetailsProps {
+  isModalOpen: boolean;
+  toggleModal: () => void;
+}
+const TodoDetails: React.FC<TodoDetailsProps> = ({
+  isModalOpen,
+  toggleModal,
+}) => {
   const [activeCard, setActiveCard] = useState(null);
   const [todoData, setTodoData] = useState<TodoItem>([]);
   const [isLoading, setIsLoading] = useState(false);

@@ -3,6 +3,7 @@ import React from "react";
 import profile from "../public/Frame 330.png";
 import Image from "next/image";
 import { useUser } from "@/app/context/store";
+
 const NavBar = () => {
   const router = useRouter();
   function LogOut() {
