@@ -28,7 +28,7 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  const onDrop = async (status) => {
+  const onDrop = async (status:String) => {
     setIsLoading(true);
     await axios
       .put(
