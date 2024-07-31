@@ -17,10 +17,13 @@ interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
 }
+interface UserProviderProps {
+  children: ReactNode; // Explicitly typing children as ReactNode
+}
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserProvider({ children }) {
+export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -54,6 +57,6 @@ export function useUser() {
   return context;
 }
 
-export function AppWrapper({ children }) {
+export function AppWrapper({ children }: { children: ReactNode }) {
   return <UserProvider>{children}</UserProvider>;
 }
