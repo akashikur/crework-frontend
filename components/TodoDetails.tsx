@@ -5,10 +5,11 @@ import TodoCard from "./TodoCard";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 
-const TodoDetails = ({ toggleModal }) => {
+const TodoDetails = ({ isModalOpen, toggleModal }) => {
   const [activeCard, setActiveCard] = useState(null);
-  const [todoData, setTodoData] = useState<TodoItem[]>([]);
+  const [todoData, setTodoData] = useState<TodoItem>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const onDrop = async (status) => {
@@ -23,7 +24,6 @@ const TodoDetails = ({ toggleModal }) => {
       )
       .then(() => {
         getData();
-        setIsLoading(false);
       })
       .catch(() => {
         console.log("error while fetching");
@@ -49,14 +49,22 @@ const TodoDetails = ({ toggleModal }) => {
 
   useEffect(() => {
     getData();
-  }, [toggleModal]);
+  }, []);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      getData();
+    }
+  }, [isModalOpen]);
 
   return (
     <>
       {isLoading ? (
-        <ClipLoader />
+        <div className="overflow-hidden">
+          <ClipLoader />
+        </div>
       ) : (
-        <div className="flex gap-x-5 overflow-auto">
+        <div className="flex gap-x-5 ">
           {["TO DO", "In Process", "Finished", "Under Review"].map((status) => (
             <div
               key={status}

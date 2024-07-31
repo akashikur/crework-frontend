@@ -8,20 +8,10 @@ import React, {
 } from "react";
 import { getUser } from "../api/userApi";
 
-interface User {
-  fullName: string;
-  email: string;
-}
+const UserContext = createContext<UserContext | undefined>(undefined);
 
-interface UserContextProps {
-  user: User | null;
-  setUser: (user: User | null) => void;
-}
-
-const UserContext = createContext<UserContextProps | undefined>(undefined);
-
-export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export function UserProvider({ children }) {
+  const [user, setUser] = useState<user | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -54,6 +44,6 @@ export function useUser() {
   return context;
 }
 
-export function AppWrapper({ children }: { children: ReactNode }) {
+export function AppWrapper({ children }) {
   return <UserProvider>{children}</UserProvider>;
 }

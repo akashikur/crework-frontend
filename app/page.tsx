@@ -13,12 +13,16 @@ export default function Home() {
       router.push("/dashboard");
     }
   }, [router]);
+
+  function handleToggle() {
+    setToggle((prev) => !prev);
+  }
   return (
     <>
       {toggle ? (
-        <Signin setToggle={setToggle} />
+        <Signin handleToggle={handleToggle} />
       ) : (
-        <Login setToggle={setToggle} />
+        <Login handleToggle={handleToggle} />
       )}
     </>
   );

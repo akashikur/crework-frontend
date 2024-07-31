@@ -63,7 +63,7 @@ const Dashboard = () => {
             <Banner toggleModal={toggleModal} />
           </section>
           <section className="flex justify-around overflow-auto max-h-full mt-1">
-            <TodoDetails toggleModal={toggleModal} />
+            <TodoDetails isModalOpen={isModalOpen} toggleModal={toggleModal} />
           </section>
         </main>
       </div>

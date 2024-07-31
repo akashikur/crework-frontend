@@ -15,7 +15,10 @@ interface Errors {
   password?: string;
 }
 
-const Login = ({ setToggle }: { setToggle: (prev: boolean) => void }) => {
+export interface setToggleType {
+  handleToggle: () => void;
+}
+const Login: React.FC<setToggleType> = ({ handleToggle }) => {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -125,7 +128,7 @@ const Login = ({ setToggle }: { setToggle: (prev: boolean) => void }) => {
           Don’t have an account? Create a{" "}
           <span
             className="cursor-pointer text-[#0054A1]"
-            onClick={() => setToggle((prev: any) => !prev)}
+            onClick={() => handleToggle}
           >
             new account
           </span>

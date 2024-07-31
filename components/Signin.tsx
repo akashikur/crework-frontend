@@ -5,9 +5,9 @@ import * as Yup from "yup";
 import Error from "./Error";
 import { signinAPI } from "@/app/api/userApi";
 import { ClipLoader } from "react-spinners";
-import { useUser } from "@/app/context/store";
+import { setToggleType } from "./Login";
 
-const Signin = ({ setToggle }) => {
+const Signin: React.FC<setToggleType> = ({ handleToggle }) => {
   const [formDate, setFormDate] = useState({
     fullName: "",
     email: "",
@@ -16,7 +16,6 @@ const Signin = ({ setToggle }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [errors, setErrors] = useState<any>({});
-  const { setUser } = useUser();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,7 +39,6 @@ const Signin = ({ setToggle }) => {
       let res = await signinAPI(formDate);
       if (res) {
         localStorage.setItem("token", res);
-        setUser({ fullName: formDate.fullName, email: formDate.email });
         router.push("/dashboard");
         setIsLoading(false);
       }
@@ -133,7 +131,7 @@ const Signin = ({ setToggle }) => {
           Already have an account?
           <span
             className="cursor-pointer text-[#0054A1]"
-            onClick={() => setToggle((prev: any) => !prev)}
+            onClick={() => handleToggle}
           >
             Log in
           </span>

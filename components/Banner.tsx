@@ -2,7 +2,15 @@ import React from "react";
 import { bannerContainerInfo } from "./bannerinfo";
 import { useUser } from "@/app/context/store";
 
-const Banner = ({ toggleModal }) => {
+export interface User {
+  fullName: string;
+  // Add other user properties here if needed
+}
+interface BannerProps {
+  toggleModal: () => void; // Function that doesn't take any arguments and returns void
+}
+
+const Banner: React.FC<BannerProps> = ({ toggleModal }) => {
   const { user } = useUser();
   const firstname = user?.fullName.split(" ");
   return (
