@@ -1,6 +1,5 @@
 import React from "react";
 
-// Define the TodoItem type
 export interface TodoItem {
   _id: string;
   title: string;
@@ -8,9 +7,9 @@ export interface TodoItem {
   status: string;
   priority?: string;
   deadline?: string;
+  updatedDate?:string
 }
 
-// Define the props for the TodoCard component
 interface TodoCardProps {
   item: TodoItem;
   setActiveCard: (id: string | null) => void;
@@ -66,7 +65,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
         <p className="text-[14px] text-gray-500 font-medium"> {item.deadline ? getRemainingTime(item.deadline) : 'No deadline set'}</p>
       </div>
       <p className="text-[14px] text-gray-600 font-semibold text-left">
-        1 hr ago
+       {item.updatedDate ? getRemainingTime(item.updatedDate) : ""}
       </p>
     </div>
   );

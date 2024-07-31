@@ -9,6 +9,7 @@ interface TodoItem {
   status: string;
   priority?: string;
   deadline?: string;
+  updatedDate?: string;
 }
 
 interface TodoState {
