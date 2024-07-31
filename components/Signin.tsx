@@ -131,7 +131,7 @@ const Signin: React.FC<setToggleType> = ({ handleToggle }) => {
           Already have an account?
           <span
             className="cursor-pointer text-[#0054A1]"
-            onClick={() => handleToggle}
+            onClick={() => handleToggle()}
           >
             Log in
           </span>

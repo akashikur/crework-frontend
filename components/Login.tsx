@@ -128,7 +128,7 @@ const Login: React.FC<setToggleType> = ({ handleToggle }) => {
           Don’t have an account? Create a{" "}
           <span
             className="cursor-pointer text-[#0054A1]"
-            onClick={() => handleToggle}
+            onClick={() => handleToggle()}
           >
             new account
           </span>
