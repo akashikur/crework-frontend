@@ -23,7 +23,7 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
   toggleModal,
 }) => {
   const [activeCard, setActiveCard] = useState(null);
-  const [todoData, setTodoData] = useState<TodoItem>([]);
+  const [todoData, setTodoData] = useState<TodoItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
