@@ -45,6 +45,24 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
     return `${hours} hours and ${minutes} minutes remaining`;
   };
 
+  const getTimeElapsed = (date: string): string => {
+    const now = new Date();
+    const updateDate = new Date(date);
+    const difference = now.getTime() - updateDate.getTime();
+    
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+  
+    if (hours > 0) {
+      return `${hours} hours and ${minutes} minutes ago`;
+    } else if (minutes > 0) {
+      return `${minutes} minutes and ${seconds} seconds ago`;
+    } else {
+      return `${seconds} seconds ago`;
+    }
+  };
+
   return (
     <div
       className="h-[231px] border border-gray-400 rounded flex flex-col py-4 px-3 gap-y-2 cursor-pointer"
@@ -65,7 +83,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
         <p className="text-[14px] text-gray-500 font-medium"> {item.deadline ? getRemainingTime(item.deadline) : 'No deadline set'}</p>
       </div>
       <p className="text-[14px] text-gray-600 font-semibold text-left">
-       {item.updatedDate ? getRemainingTime(item.updatedDate) : ""}
+      {item.updatedDate ? getTimeElapsed(item.updatedDate) : "No recent updates"}
       </p>
     </div>
   );
