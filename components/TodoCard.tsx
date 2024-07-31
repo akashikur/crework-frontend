@@ -31,6 +31,21 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
     }
   };
 
+  const getRemainingTime = (deadline: string | undefined): string => {
+    if (!deadline) return 'No deadline set';
+    
+    const now = new Date();
+    const deadlineDate = new Date(deadline);
+    const difference = deadlineDate.getTime() - now.getTime();
+    
+    if (difference <= 0) return 'Deadline has passed';
+    
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `${hours} hours and ${minutes} minutes remaining`;
+  };
+
   return (
     <div
       className="h-[231px] border border-gray-400 rounded flex flex-col py-4 px-3 gap-y-2 cursor-pointer"
@@ -48,7 +63,7 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
         >
           {item.priority}
         </p>
-        <p className="text-[14px] text-gray-500 font-medium">{item.deadline}</p>
+        <p className="text-[14px] text-gray-500 font-medium"> {item.deadline ? getRemainingTime(item.deadline) : 'No deadline set'}</p>
       </div>
       <p className="text-[14px] text-gray-600 font-semibold text-left">
         1 hr ago
