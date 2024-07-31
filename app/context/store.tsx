@@ -8,10 +8,20 @@ import React, {
 } from "react";
 import { getUser } from "../api/userApi";
 
-const UserContext = createContext<UserContext | undefined>(undefined);
+interface User {
+  fullName: string;
+  email: string;
+}
+
+interface UserContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState<user | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
