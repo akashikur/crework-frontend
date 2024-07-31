@@ -5,6 +5,15 @@ import TodoCard from "./TodoCard";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 
+interface TodoItem {
+  _id: string;
+  title: string;
+  description?: string;
+  status: string;
+  priority?: string;
+  deadline?: string;
+}
+
 interface TodoDetailsProps {
   isModalOpen: boolean;
   toggleModal: () => void;

@@ -1,7 +1,7 @@
 import React from "react";
 
 // Define the TodoItem type
-interface TodoItem {
+export interface TodoItem {
   _id: string;
   title: string;
   description?: string;
