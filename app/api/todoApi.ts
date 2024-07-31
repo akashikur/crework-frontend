@@ -17,7 +17,13 @@ export async function createTodo(formData: {
       return res;
     })
     .catch((error) => {
-      alert(error.response.data.message);
+      if (axios.isAxiosError(error) && error.response) {
+        // Safely access the error response
+        alert(error.response.data.message || "An error occurred");
+      } else {
+        // Handle unknown error
+        alert("An unknown error occurred");
+      }
     });
 }
 
@@ -30,6 +36,12 @@ export async function deleteTodo(activeCard: null, status: any) {
       return res;
     })
     .catch((error) => {
-      alert(error.response.data.message);
+      if (axios.isAxiosError(error) && error.response) {
+        // Safely access the error response
+        alert(error.response.data.message || "An error occurred");
+      } else {
+        // Handle unknown error
+        alert("An unknown error occurred");
+      }
     });
 }

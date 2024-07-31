@@ -7,7 +7,11 @@ export const loginAPI = async (formData: FormData) => {
     const res = await axios.post(`${backendUrl}/user/login`, formData);
     return res.data.data;
   } catch (error) {
-    alert(error.response.data.message);
+    if (axios.isAxiosError(error) && error.response) {
+      alert(error.response.data.message || "An error occurred");
+    } else {
+      alert("An unknown error occurred");
+    }
   }
 };
 
@@ -20,7 +24,11 @@ export const signinAPI = async (formData: {
     const res = await axios.post(`${backendUrl}/user/signUp`, formData);
     return res.data.data;
   } catch (error) {
-    alert(error.response.data.message);
+    if (axios.isAxiosError(error) && error.response) {
+      alert(error.response.data.message || "An error occurred");
+    } else {
+      alert("An unknown error occurred");
+    }
   }
 };
 
@@ -31,6 +39,10 @@ export const getUser = async () => {
     });
     return res.data.data;
   } catch (error) {
-    alert(error.response.data.message);
+    if (axios.isAxiosError(error) && error.response) {
+      alert(error.response.data.message || "An error occurred");
+    } else {
+      alert("An unknown error occurred");
+    }
   }
 };
