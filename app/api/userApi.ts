@@ -7,8 +7,7 @@ export const loginAPI = async (formData: FormData) => {
     const res = await axios.post(`${backendUrl}/user/login`, formData);
     return res.data.data;
   } catch (error) {
-    alert(error);
-    throw error;
+    alert(error.response.data.message);
   }
 };
 
@@ -21,7 +20,7 @@ export const signinAPI = async (formData: {
     const res = await axios.post(`${backendUrl}/user/signUp`, formData);
     return res.data.data;
   } catch (error) {
-    console.error("API call failed:", error);
+    alert(error.response.data.message);
   }
 };
 
@@ -32,6 +31,6 @@ export const getUser = async () => {
     });
     return res.data.data;
   } catch (error) {
-    console.error("API call failed:", error);
+    alert(error.response.data.message);
   }
 };

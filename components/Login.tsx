@@ -47,10 +47,10 @@ const Login: React.FC<setToggleType> = ({ handleToggle }) => {
       await schema.validate(formData, { abortEarly: false });
       let res = await loginAPI(formData);
       if (res) {
-        setIsLoading(false);
         localStorage.setItem("token", res);
         router.push("/dashboard");
       }
+      setIsLoading(false);
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const newErrors: Errors = {};

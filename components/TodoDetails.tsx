@@ -43,7 +43,7 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
       );
       await getData(); // Fetch data after update
     } catch (error) {
-      console.error("Error while updating todo", error);
+      alert(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +57,7 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
       });
       setTodoData(res.data.data);
     } catch (error) {
-      console.error("Error while fetching todos", error);
+      alert(error.response.data.message);
     } finally {
       setIsLoading(false);
     }

@@ -40,8 +40,7 @@ const Signin: React.FC<setToggleType> = ({ handleToggle }) => {
       if (res) {
         localStorage.setItem("token", res);
         router.push("/dashboard");
-        setIsLoading(false);
-      }
+      }setIsLoading(false);
     } catch (e) {
       if (e instanceof Yup.ValidationError) {
         const newErrors: any = {};

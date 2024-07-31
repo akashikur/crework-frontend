@@ -17,7 +17,7 @@ export async function createTodo(formData: {
       return res;
     })
     .catch((error) => {
-      console.log("error while fetching");
+      alert(error.response.data.message);
     });
 }
 
@@ -29,7 +29,7 @@ export async function deleteTodo(activeCard: null, status: any) {
     .then((res) => {
       return res;
     })
-    .catch(() => {
-      console.log("error while fetching");
+    .catch((error) => {
+      alert(error.response.data.message);
     });
 }
