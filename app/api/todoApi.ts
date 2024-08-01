@@ -43,3 +43,20 @@ export async function deleteTodo(id: any) {
       }
     });
 }
+
+export async function editTodo(id: string, data: any) {
+  await axios
+    .put(`${backendUrl}/todo/updateTodo/${id}`, data, {
+      headers: { todo: localStorage.getItem("token") },
+    })
+    .then((res) => {
+      return res.data.message;
+    })
+    .catch((error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        alert(error.response.data.message || "An error occurred");
+      } else {
+        alert("An unknown error occurred");
+      }
+    });
+}

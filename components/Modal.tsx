@@ -1,10 +1,11 @@
-import { createTodo } from "@/app/api/todoApi";
+import { createTodo, editTodo } from "@/app/api/todoApi";
 import { useUser } from "@/app/context/store";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Modal = () => {
-  const { setIsModalOpen } = useUser();
+  const { setIsModalOpen, taskInfo, setTaskInfo } = useUser();
+  console.log(taskInfo);
   const [formData, setFormData] = useState({
     title: "",
     status: "",
@@ -12,6 +13,18 @@ const Modal = () => {
     deadline: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (taskInfo) {
+      setFormData({
+        title: taskInfo.title || "",
+        status: taskInfo.status || "",
+        priority: taskInfo.priority || "",
+        deadline: taskInfo.deadline || "",
+        description: taskInfo.description || "",
+      });
+    }
+  }, [taskInfo]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -34,11 +47,17 @@ const Modal = () => {
       alert("Please fill in all required fields.");
       return;
     }
+
     try {
-      await createTodo(formData);
+      if (taskInfo && taskInfo._id) {
+        await editTodo(taskInfo._id, formData);
+        setTaskInfo(null);
+      } else {
+        await createTodo(formData);
+      }
       setIsModalOpen((prev: any) => !prev);
     } catch (error) {
-      console.error("Error while creating todo:", error);
+      console.error("Error while creating/updating todo:", error);
       alert("An error occurred. Please try again.");
     }
   }
@@ -370,11 +389,12 @@ const Modal = () => {
             ></textarea>
           </div>
         </div>
+
         <button
           className="bg-customPurple p-2 rounded-md text-white"
           onClick={handleForm}
         >
-          Save
+          {taskInfo ? "Edit Form" : "save"}
         </button>
       </div>
     </div>

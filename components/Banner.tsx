@@ -1,20 +1,25 @@
 import React from "react";
 import { bannerContainerInfo } from "./bannerinfo";
 import { useUser } from "@/app/context/store";
+import { ClipLoader } from "react-spinners";
 
 export interface User {
   fullName: string;
 }
 
 const Banner = () => {
-  const { user, setIsModalOpen } = useUser();
+  const { user, setIsModalOpen, userLoad } = useUser();
 
   const firstname = user?.fullName.split(" ");
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className="text-[40px] font-semibold">
-          Good morning,{firstname && firstname[0]}
+          {userLoad ? (
+            <ClipLoader />
+          ) : (
+            `Good morning ${firstname ? firstname[0] : " "}`
+          )}
         </h1>
         <div className="flex gap-x-2 items-center">
           <p className="text-[16px]">Help & feedback</p>

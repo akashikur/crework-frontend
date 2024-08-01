@@ -1,6 +1,7 @@
+import { useUser } from "@/app/context/store";
 import { getRemainingTime } from "@/utils/getRemainingTime";
 import { getTimeElapsed } from "@/utils/getTimeElapsed";
-import { Trash } from "lucide-react";
+import { PencilOff, Trash } from "lucide-react";
 import React from "react";
 
 export interface TodoItem {
@@ -24,7 +25,7 @@ const TodoCard: React.FC<TodoCardProps> = ({
   setActiveCard,
   handleDelete,
 }) => {
-  // Function to get the class name based on priority
+  const { setTaskInfo, setIsModalOpen } = useUser();
   const getPriorityClass = (priority: string | undefined): string => {
     switch (priority) {
       case "Low":
@@ -50,10 +51,21 @@ const TodoCard: React.FC<TodoCardProps> = ({
           <h5 className="text-[16px] text-gray-500 font-medium">
             {item.title}
           </h5>
-          <Trash
-            className="hover:text-red-600"
-            onClick={() => handleDelete(item._id)}
-          />
+          <div className="flex gap-x-4">
+            <Trash
+              className="hover:text-red-600 text-gray-400 "
+              onClick={() => handleDelete(item._id)}
+              size={20}
+            />
+            <PencilOff
+              size={20}
+              className="hover:text-blue-600 text-gray-400"
+              onClick={() => {
+                setTaskInfo(item);
+                setIsModalOpen((prev) => !prev);
+              }}
+            />
+          </div>
         </div>
 
         <p className="text-[14px] text-gray-400">{item.description}</p>

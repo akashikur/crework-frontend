@@ -4,6 +4,7 @@ import TodoCard from "./TodoCard";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { useUser } from "@/app/context/store";
+import { editTodo } from "@/app/api/todoApi";
 
 interface TodoItem {
   _id: string;
@@ -18,30 +19,18 @@ interface TodoItem {
 const TodoDetails = () => {
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [todoData, setTodoData] = useState<TodoItem[]>([]);
-
   const { isLoading, setIsLoading, setIsModalOpen, isModalOpen } = useUser();
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const onDrop = async (status: string) => {
     if (!activeCard) return;
-
     setIsLoading(true);
     try {
-      await axios.put(
-        `${backendUrl}/todo/updateTodo/${activeCard}`,
-        { status },
-        {
-          headers: { todo: localStorage.getItem("token") },
-        }
-      );
+      await editTodo(activeCard, { status });
       await getData();
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        alert(error.response.data.message || "An error occurred");
-      } else {
-        alert("An unknown error occurred");
-      }
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }

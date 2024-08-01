@@ -13,6 +13,16 @@ interface User {
   email: string;
 }
 
+export interface TodoItem {
+  _id: string;
+  title: string;
+  description?: string;
+  status: string;
+  priority?: string;
+  deadline?: string;
+  updatedDate?: string;
+}
+
 interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
@@ -20,6 +30,10 @@ interface UserContextType {
   setIsLoading: (isLoading: boolean) => void;
   isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean | ((prev: boolean) => boolean)) => void;
+  taskInfo: TodoItem | null;
+  setTaskInfo: (taskInfo: TodoItem | null) => void;
+  userLoad: boolean;
+  setUserLoad: (userLoad: boolean) => void;
 }
 interface UserProviderProps {
   children: ReactNode;
@@ -31,14 +45,17 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [taskInfo, setTaskInfo] = useState<TodoItem | null>(null);
+  const [userLoad, setUserLoad] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchUser = async () => {
       if (localStorage.getItem("token")) {
         try {
-          setIsLoading(true);
+          setUserLoad(true);
           let res = await getUser();
           setUser(res);
-          setIsLoading(false);
+          setUserLoad(false);
         } catch (error) {
           console.error("Failed to fetch user", error);
           localStorage.removeItem("token");
@@ -58,6 +75,10 @@ export function UserProvider({ children }: UserProviderProps) {
         setIsLoading,
         isModalOpen,
         setIsModalOpen,
+        taskInfo,
+        setTaskInfo,
+        userLoad,
+        setUserLoad,
       }}
     >
       {children}

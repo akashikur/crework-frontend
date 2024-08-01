@@ -6,12 +6,11 @@ import TodoDetails from "@/components/TodoDetails";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUser } from "../context/store";
+import { ClipLoader } from "react-spinners";
 
 const Dashboard = () => {
   const router = useRouter();
-
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isModalOpen, setIsModalOpen } = useUser();
+  const { isModalOpen, userLoad } = useUser();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -22,7 +21,7 @@ const Dashboard = () => {
   return (
     <div className="w-full h-screen flex">
       <div className="basis-1/5 border border-r-gray-400 flex justify-between flex-col items-center py-7">
-        <NavBar />
+        {userLoad ? <ClipLoader /> : <NavBar />}
         <div className="h-[61px] w-[253px] flex items-center gap-x-3">
           <svg
             width="40"
@@ -75,4 +74,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard
+export default Dashboard;
