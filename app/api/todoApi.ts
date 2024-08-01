@@ -27,21 +27,4 @@ export async function createTodo(formData: {
     });
 }
 
-export async function deleteTodo(activeCard: null, status: any) {
-  await axios
-    .put(`${backendUrl}/todo/deleteTodo/${activeCard}`, status, {
-      headers: { todo: localStorage.getItem("token") },
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((error) => {
-      if (axios.isAxiosError(error) && error.response) {
-        // Safely access the error response
-        alert(error.response.data.message || "An error occurred");
-      } else {
-        // Handle unknown error
-        alert("An unknown error occurred");
-      }
-    });
-}
+export async function deleteTodo(id: any) {}

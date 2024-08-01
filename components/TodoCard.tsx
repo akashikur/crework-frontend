@@ -1,3 +1,6 @@
+import { getRemainingTime } from "@/utils/getRemainingTime";
+import { getTimeElapsed } from "@/utils/getTimeElapsed";
+import { Trash } from "lucide-react";
 import React from "react";
 
 export interface TodoItem {
@@ -7,15 +10,20 @@ export interface TodoItem {
   status: string;
   priority?: string;
   deadline?: string;
-  updatedDate?:string
+  updatedDate?: string;
 }
 
 interface TodoCardProps {
   item: TodoItem;
   setActiveCard: (id: string | null) => void;
+  handleDelete: (id: string) => void;
 }
 
-const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
+const TodoCard: React.FC<TodoCardProps> = ({
+  item,
+  setActiveCard,
+  handleDelete,
+}) => {
   // Function to get the class name based on priority
   const getPriorityClass = (priority: string | undefined): string => {
     switch (priority) {
@@ -30,39 +38,6 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
     }
   };
 
-  const getRemainingTime = (deadline: string | undefined): string => {
-    if (!deadline) return 'No deadline set';
-    
-    const now = new Date();
-    const deadlineDate = new Date(deadline);
-    const difference = deadlineDate.getTime() - now.getTime();
-    
-    if (difference <= 0) return 'Deadline has passed';
-    
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    
-    return `${hours} hours and ${minutes} minutes remaining`;
-  };
-
-  const getTimeElapsed = (date: string): string => {
-    const now = new Date();
-    const updateDate = new Date(date);
-    const difference = now.getTime() - updateDate.getTime();
-    
-    const hours = Math.floor(difference / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-  
-    if (hours > 0) {
-      return `${hours} hours and ${minutes} minutes ago`;
-    } else if (minutes > 0) {
-      return `${minutes} minutes and ${seconds} seconds ago`;
-    } else {
-      return `${seconds} seconds ago`;
-    }
-  };
-
   return (
     <div
       className="h-[231px] border border-gray-400 rounded flex flex-col py-4 px-3 gap-y-2 cursor-pointer"
@@ -71,7 +46,16 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
       onDragEnd={() => setActiveCard(null)}
     >
       <div className="h-max flex gap-y-1 flex-col">
-        <h5 className="text-[16px] text-gray-500 font-medium">{item.title}</h5>
+        <div className="flex justify-between">
+          <h5 className="text-[16px] text-gray-500 font-medium">
+            {item.title}
+          </h5>
+          <Trash
+            className="hover:text-red-600"
+            onClick={() => handleDelete(item._id)}
+          />
+        </div>
+
         <p className="text-[14px] text-gray-400">{item.description}</p>
         <p
           className={`p-2 text-[12px] w-min rounded-xl text-white ${getPriorityClass(
@@ -80,13 +64,21 @@ const TodoCard: React.FC<TodoCardProps> = ({ item, setActiveCard }) => {
         >
           {item.priority}
         </p>
-        <p className="text-[14px] text-gray-500 font-medium"> {item.deadline ? getRemainingTime(item.deadline) : 'No deadline set'}</p>
+        <p className="text-[14px] text-gray-500 font-medium">
+          {" "}
+          {item.deadline ? getRemainingTime(item.deadline) : "No deadline set"}
+        </p>
       </div>
       <p className="text-[14px] text-gray-600 font-semibold text-left">
-      {item.updatedDate ? getTimeElapsed(item.updatedDate) : "No recent updates"}
+        {item.updatedDate
+          ? getTimeElapsed(item.updatedDate)
+          : "No recent updates"}
       </p>
     </div>
   );
 };
 
 export default TodoCard;
+function async(_id: string) {
+  throw new Error("Function not implemented.");
+}

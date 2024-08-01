@@ -11,7 +11,7 @@ interface TodoItem {
   status: string;
   priority?: string;
   deadline?: string;
-  updatedDate?:string
+  updatedDate?: string;
 }
 
 interface TodoDetailsProps {
@@ -29,7 +29,8 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  const onDrop = async (status: string) => { // Fixed type
+  const onDrop = async (status: string) => {
+    // Fixed type
     if (!activeCard) return; // Ensure activeCard is not null
 
     setIsLoading(true);
@@ -45,12 +46,11 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         // Safely access the error response
-        alert(error.response.data.message || 'An error occurred');
+        alert(error.response.data.message || "An error occurred");
       } else {
         // Handle unknown error
-        alert('An unknown error occurred');
+        alert("An unknown error occurred");
       }
-    
     } finally {
       setIsLoading(false);
     }
@@ -66,15 +66,33 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         // Safely access the error response
-        alert(error.response.data.message || 'An error occurred');
+        alert(error.response.data.message || "An error occurred");
       } else {
         // Handle unknown error
-        alert('An unknown error occurred');
+        alert("An unknown error occurred");
       }
-    
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDelete = async (id: string) => {
+    console.log(id);
+    setIsLoading(true);
+    await axios
+      .delete(`${backendUrl}/todo/deleteTodo/${id}`, {
+        headers: { todo: localStorage.getItem("token") },
+      })
+      .then(() => {
+        getData();
+      })
+      .catch((error) => {
+        if (axios.isAxiosError(error) && error.response) {
+          alert(error.response.data.message || "An error occurred");
+        } else {
+          alert("An unknown error occurred");
+        }
+      });
   };
 
   useEffect(() => {
@@ -141,7 +159,8 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
                       <TodoCard
                         item={item}
                         key={item._id}
-                        setActiveCard={setActiveCard} 
+                        setActiveCard={setActiveCard}
+                        handleDelete={handleDelete}
                       />
                     )
                 )}
