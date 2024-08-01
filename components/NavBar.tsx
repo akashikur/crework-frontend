@@ -317,7 +317,7 @@ const NavBar = () => {
       </ul>
       <button
         className="w-full bg-customPurple rounded-lg p-2 text-white flex justify-center gap-x-4 items-center"
-        onClick={() => setIsModalOpen((prev: any) => !prev)}
+        onClick={() => setIsModalOpen((prev: boolean) => !prev)}
       >
         <p className="text-[20px]">Create new task</p>
         <svg

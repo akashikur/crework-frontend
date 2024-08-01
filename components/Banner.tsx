@@ -223,7 +223,7 @@ const Banner = () => {
           </button>
           <button
             className="bg-customPurple rounded-lg p-2 text-white flex flex-row items-center gap-x-2 "
-            onClick={() => setIsModalOpen((prev: any) => !prev)}
+            onClick={() => setIsModalOpen((prev: boolean) => !prev)}
           >
             <p>Create new</p>
             <svg

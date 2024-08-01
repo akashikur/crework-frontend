@@ -156,7 +156,7 @@ const TodoDetails = () => {
               </div>
               <button
                 className="w-full bg-add-gradient rounded-lg text-[#E3E1E1] text-[] p-2 mt-2 flex justify-between"
-                onClick={() => setIsModalOpen((prev: any) => !prev)}
+                onClick={() => setIsModalOpen((prev: boolean) => !prev)}
               >
                 <p>Add new</p>
                 <svg
