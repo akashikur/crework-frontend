@@ -4,14 +4,11 @@ import { useUser } from "@/app/context/store";
 
 export interface User {
   fullName: string;
-  // Add other user properties here if needed
-}
-interface BannerProps {
-  toggleModal: () => void; // Function that doesn't take any arguments and returns void
 }
 
-const Banner: React.FC<BannerProps> = ({ toggleModal }) => {
-  const { user } = useUser();
+const Banner = () => {
+  const { user, setIsModalOpen } = useUser();
+
   const firstname = user?.fullName.split(" ");
   return (
     <>
@@ -226,7 +223,7 @@ const Banner: React.FC<BannerProps> = ({ toggleModal }) => {
           </button>
           <button
             className="bg-customPurple rounded-lg p-2 text-white flex flex-row items-center gap-x-2 "
-            onClick={toggleModal}
+            onClick={() => setIsModalOpen((prev: any) => !prev)}
           >
             <p>Create new</p>
             <svg

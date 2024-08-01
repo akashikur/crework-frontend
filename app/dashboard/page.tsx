@@ -5,20 +5,19 @@ import NavBar from "@/components/NavBar";
 import TodoDetails from "@/components/TodoDetails";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useUser } from "../context/store";
 
 const Dashboard = () => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, setIsModalOpen } = useUser();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       router.push("/");
     }
   }, [router]);
-
-  const toggleModal = () => {
-    setIsModalOpen((prev) => !prev);
-  };
 
   return (
     <div className="w-full h-screen flex">
@@ -60,20 +59,20 @@ const Dashboard = () => {
       <div className="basis-4/5 my-2 mx-4 overflow-hidden">
         <main className="flex gap-y-4 flex-col">
           <section>
-            <Banner toggleModal={toggleModal} />
+            <Banner />
           </section>
           <section className="flex justify-around overflow-auto max-h-full mt-1">
-            <TodoDetails isModalOpen={isModalOpen} toggleModal={toggleModal} />
+            <TodoDetails />
           </section>
         </main>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <Modal toggleModal={toggleModal} />
+          <Modal />
         </div>
       )}
     </div>
   );
 };
 
-export default Dashboard;
+export default Dashboard

@@ -27,4 +27,19 @@ export async function createTodo(formData: {
     });
 }
 
-export async function deleteTodo(id: any) {}
+export async function deleteTodo(id: any) {
+  await axios
+    .delete(`${backendUrl}/todo/deleteTodo/${id}`, {
+      headers: { todo: localStorage.getItem("token") },
+    })
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      if (axios.isAxiosError(error) && error.response) {
+        alert(error.response.data.message || "An error occurred");
+      } else {
+        alert("An unknown error occurred");
+      }
+    });
+}

@@ -1,10 +1,10 @@
 import { createTodo } from "@/app/api/todoApi";
+import { useUser } from "@/app/context/store";
 
 import React, { useState } from "react";
-interface ModalProps {
-  toggleModal: () => void;
-}
-const Modal: React.FC<ModalProps> = ({ toggleModal }) => {
+
+const Modal = () => {
+  const { setIsModalOpen } = useUser();
   const [formData, setFormData] = useState({
     title: "",
     status: "",
@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({ toggleModal }) => {
     }
     try {
       await createTodo(formData);
-      toggleModal();
+      setIsModalOpen((prev: any) => !prev);
     } catch (error) {
       console.error("Error while creating todo:", error);
       alert("An error occurred. Please try again.");
@@ -54,7 +54,7 @@ const Modal: React.FC<ModalProps> = ({ toggleModal }) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className="cursor-pointer"
-            onClick={toggleModal}
+            onClick={() => setIsModalOpen((prev: any) => !prev)}
           >
             <path
               d="M6.7583 17.2426L12.0009 12M12.0009 12L17.2435 6.75732M12.0009 12L6.7583 6.75732M12.0009 12L17.2435 17.2426"

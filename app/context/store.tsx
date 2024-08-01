@@ -16,25 +16,32 @@ interface User {
 interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+  isModalOpen: boolean;
+  setIsModalOpen: (isModalOpen: boolean) => void;
 }
 interface UserProviderProps {
-  children: ReactNode; // Explicitly typing children as ReactNode
+  children: ReactNode;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   useEffect(() => {
     const fetchUser = async () => {
       if (localStorage.getItem("token")) {
         try {
+          setIsLoading(true);
           let res = await getUser();
           setUser(res);
+          setIsLoading(false);
         } catch (error) {
           console.error("Failed to fetch user", error);
-          localStorage.removeItem("token"); // Optionally remove the token if fetching user fails
+          localStorage.removeItem("token");
         }
       }
     };
@@ -43,7 +50,16 @@ export function UserProvider({ children }: UserProviderProps) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoading,
+        setIsLoading,
+        isModalOpen,
+        setIsModalOpen,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

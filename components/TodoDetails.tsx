@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import TodoCard from "./TodoCard";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
+import { useUser } from "@/app/context/store";
 
 interface TodoItem {
   _id: string;
@@ -14,24 +15,16 @@ interface TodoItem {
   updatedDate?: string;
 }
 
-interface TodoDetailsProps {
-  isModalOpen: boolean;
-  toggleModal: () => void;
-}
-
-const TodoDetails: React.FC<TodoDetailsProps> = ({
-  isModalOpen,
-  toggleModal,
-}) => {
-  const [activeCard, setActiveCard] = useState<string | null>(null); // Fixed type
+const TodoDetails = () => {
+  const [activeCard, setActiveCard] = useState<string | null>(null);
   const [todoData, setTodoData] = useState<TodoItem[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false); // Fixed type
+
+  const { isLoading, setIsLoading, setIsModalOpen, isModalOpen } = useUser();
 
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   const onDrop = async (status: string) => {
-    // Fixed type
-    if (!activeCard) return; // Ensure activeCard is not null
+    if (!activeCard) return;
 
     setIsLoading(true);
     try {
@@ -42,13 +35,11 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
           headers: { todo: localStorage.getItem("token") },
         }
       );
-      await getData(); // Fetch data after update
+      await getData();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // Safely access the error response
         alert(error.response.data.message || "An error occurred");
       } else {
-        // Handle unknown error
         alert("An unknown error occurred");
       }
     } finally {
@@ -65,10 +56,8 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
       setTodoData(res.data.data);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // Safely access the error response
         alert(error.response.data.message || "An error occurred");
       } else {
-        // Handle unknown error
         alert("An unknown error occurred");
       }
     } finally {
@@ -167,7 +156,7 @@ const TodoDetails: React.FC<TodoDetailsProps> = ({
               </div>
               <button
                 className="w-full bg-add-gradient rounded-lg text-[#E3E1E1] text-[] p-2 mt-2 flex justify-between"
-                onClick={toggleModal}
+                onClick={() => setIsModalOpen((prev: any) => !prev)}
               >
                 <p>Add new</p>
                 <svg

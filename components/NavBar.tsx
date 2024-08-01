@@ -10,7 +10,7 @@ const NavBar = () => {
     localStorage.removeItem("token");
     router.push("/");
   }
-  const { user } = useUser();
+  const { user, setIsModalOpen } = useUser();
   return (
     <nav className="w-[253px] h-[363px] flex flex-col gap-y-6 ">
       <div className="flex  gap-3">
@@ -315,7 +315,10 @@ const NavBar = () => {
           <p>Analytics</p>
         </li>
       </ul>
-      <button className="w-full bg-customPurple rounded-lg p-2 text-white flex justify-center gap-x-4 items-center">
+      <button
+        className="w-full bg-customPurple rounded-lg p-2 text-white flex justify-center gap-x-4 items-center"
+        onClick={() => setIsModalOpen((prev: any) => !prev)}
+      >
         <p className="text-[20px]">Create new task</p>
         <svg
           width="25"
