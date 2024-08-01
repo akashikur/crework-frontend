@@ -19,7 +19,7 @@ interface UserContextType {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   isModalOpen: boolean;
-  setIsModalOpen: (isModalOpen: boolean) => boolean;
+  setIsModalOpen: (isModalOpen: boolean | ((prev: boolean) => boolean)) => void;
 }
 interface UserProviderProps {
   children: ReactNode;
